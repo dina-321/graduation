@@ -23,7 +23,7 @@ export const signIn = async (req, res) => {
   delete user.entity;
   delete user.entityId;
   delete user.metadata;
-  return res.status(200).json({ message: "User signed in successfully", user });
+  return res.status(200).json({ message: "User signed in successfully" });
 };
 
 export const signUp = async (req, res) => {
@@ -43,7 +43,6 @@ export const signUp = async (req, res) => {
       new Date(newUser.profile.birthDate).getTime() + ""
     );
 
-    
     delete newUser.entity;
     delete newUser.entityId;
     delete newUser.metadata;

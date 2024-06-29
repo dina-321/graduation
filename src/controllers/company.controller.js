@@ -55,9 +55,7 @@ export const signInCompany = async (req, res) => {
   delete company.entity;
   delete company.entityId;
   delete company.metadata;
-  return res
-    .status(200)
-    .json({ message: "Company signed in successfully", company });
+  return res.status(200).json({ message: "Company signed in successfully" });
 };
 export const showAll = async (req, res) => {
   try {
