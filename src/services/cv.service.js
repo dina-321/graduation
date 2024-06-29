@@ -31,3 +31,12 @@ export const getCVByUserId = async (userId) => {
     },
   });
 };
+
+export const updateCVByUserId = async (userId, cv) => {
+  return await prisma.cv.update({
+    where: {
+      userId,
+    },
+    data: cv,
+  });
+};
