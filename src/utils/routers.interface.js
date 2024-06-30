@@ -11,6 +11,7 @@ export default {
     signup: "/users/signup",
     resetpassword: "/users/reset-password",
     showAllUser: "/users",
+    signupApp: "/users",
   },
 
   company: {
@@ -28,7 +29,7 @@ export default {
     delete: "/cvs/:id",
   },
   search: {
-    companyName: "/search/:company_name",
+    companyName: "/searchCompany/:company_name",
     position: "/search/:job_position",
   },
 };

@@ -6,6 +6,7 @@ import {
   signUp,
   resetPassword,
   showAllUser,
+  signUpForApps,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -15,6 +16,10 @@ router.post(routers_interface.api + routers_interface.user.signin, signIn);
 router.post(
   routers_interface.api + routers_interface.user.resetpassword,
   resetPassword
+);
+router.post(
+  routers_interface.api + routers_interface.user.signupApp,
+  signUpForApps
 );
 
 router.get(routers_interface.api + routers_interface.user.getById, getById);
