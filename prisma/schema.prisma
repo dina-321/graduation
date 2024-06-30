@@ -8,37 +8,39 @@ datasource db {
 }
 
 model company {
-  id       String  @id @default(uuid())
-  profile  Json @default("{}")
-  metadata Json @default("{}")
-
-  entityId String  @unique(map: "Company_entityId_key")
-  entity   entity  @relation(fields: [entityId], references: [id], map: "Company_entityId_fkey")
+  id          String @id @default(uuid())
+  profile     Json   @default("{}")
+  metadata    Json   @default("{}")
+  companyName String
+  entityId    String @unique(map: "Company_entityId_key")
+  entity      entity @relation(fields: [entityId], references: [id], map: "Company_entityId_fkey")
 }
 
 model cv {
   id           String @id @default(uuid())
   job_position String
-  metadata     Json @default("{}")
+  metadata     Json   @default("{}")
   userId       String @unique(map: "CV_userId_key")
   user         user   @relation(fields: [userId], references: [id], map: "CV_userId_fkey")
 }
 
 model entity {
-  id              String   @id @default(uuid())
-  email           String
+  id              String    @id @default(uuid())
+  email           String    @unique
   TIN             String?
   hashed_password String
-  created_at      DateTime @default(now())
+  created_at      DateTime  @default(now())
   company         company?
   user            user?
+  OTP             Int?
+  OTP_created_at  DateTime?
 }
 
 model user {
-  id       String  @id @default(uuid())
-  profile  Json @default("{}")
-  metadata Json @default("{}")
-  entityId String  @unique(map: "User_entityId_key")
+  id       String @id @default(uuid())
+  profile  Json   @default("{}")
+  metadata Json   @default("{}")
+  entityId String @unique(map: "User_entityId_key")
   cv       cv?
-  entity   entity  @relation(fields: [entityId], references: [id], map: "User_entityId_fkey")
+  entity   entity @relation(fields: [entityId], references: [id], map: "User_entityId_fkey")
 }

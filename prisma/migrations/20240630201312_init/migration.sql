@@ -3,6 +3,7 @@ CREATE TABLE `company` (
     `id` VARCHAR(191) NOT NULL,
     `profile` JSON NOT NULL,
     `metadata` JSON NOT NULL,
+    `companyName` VARCHAR(191) NOT NULL,
     `entityId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Company_entityId_key`(`entityId`),
@@ -27,7 +28,10 @@ CREATE TABLE `entity` (
     `TIN` VARCHAR(191) NULL,
     `hashed_password` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `OTP` INTEGER NULL,
+    `OTP_created_at` DATETIME(3) NULL,
 
+    UNIQUE INDEX `entity_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
