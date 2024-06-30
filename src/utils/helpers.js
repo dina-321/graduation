@@ -1,5 +1,5 @@
-export const getDomain = () =>
-  (process.env.DOMAIN || "").replace("{port}", process.env.PORT);
+// export const getDomain = () =>
+//   (process.env.DOMAIN || "").replace("{port}", process.env.PORT);
 
 export const getRandomOTP = () => {
   return Math.floor(100000 + Math.random() * 900000);

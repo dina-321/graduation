@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { getDomain } from "./helpers.js";
+
 import Logger from "./logger.js";
 
 const transporter = nodemailer.createTransport({
