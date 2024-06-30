@@ -5,12 +5,12 @@ export default {
     get: "/images/:filename",
   },
 
-  //http://localhost:3000/api/v1/user/signin
   user: {
     getById: "/users/:id",
     signin: "/users/signin",
     signup: "/users/signup",
     resetpassword: "/users/reset-password",
+    showAllUser: "/users",
   },
 
   company: {
@@ -27,11 +27,8 @@ export default {
     update: "/cvs/:id",
     delete: "/cvs/:id",
   },
-  // RESTFULL_WAY: {
-  //   getAll: "/cvs",
-  //   getById: "/cvs/:id",
-  //   create: "/cvs", // POST
-  //   update: "/cvs", // PUT
-  //   delete: "/cvs/:id", // DELETE
-  // },
+  search: {
+    companyName: "/search/:company_name",
+    position: "/search/:job_position",
+  },
 };

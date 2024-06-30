@@ -5,6 +5,7 @@ import {
   getById,
   signUp,
   resetPassword,
+  showAllUser,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -17,6 +18,9 @@ router.post(
 );
 
 router.get(routers_interface.api + routers_interface.user.getById, getById);
-// router.get(routers_interface.user.showAllUser, showAllUser);
+router.get(
+  routers_interface.api + routers_interface.user.showAllUser,
+  showAllUser
+);
 
 export default router;

@@ -11,6 +11,7 @@ model company {
   id       String  @id @default(uuid())
   profile  Json @default("{}")
   metadata Json @default("{}")
+
   entityId String  @unique(map: "Company_entityId_key")
   entity   entity  @relation(fields: [entityId], references: [id], map: "Company_entityId_fkey")
 }
