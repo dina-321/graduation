@@ -1,24 +1,24 @@
 import { findCompanyByName } from "../services/company.service.js";
 import { findCvsByJobPosition } from "../services/cv.service.js";
 
-export const search = async (req, res) => {
-  try {
-    const { companyName } = req.params;
-    console.log(companyName);
+// export const search = async (req, res) => {
+//   try {
+//     const { companyName } = req.params;
+//     console.log(companyName);
 
-    if (!companyName) {
-      return res.status(400).json({ error: "Company Name is required" });
-    }
+//     if (!companyName) {
+//       return res.status(400).json({ error: "Company Name is required" });
+//     }
 
-    const comanys = await findCompanyByName(companyName);
-    res.status(200).json(comanys);
-  } catch (error) {
-    console.error("Error searching for Companies by Name:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while searching for companies" });
-  }
-};
+//     const comanys = await findCompanyByName(companyName);
+//     res.status(200).json(comanys);
+//   } catch (error) {
+//     console.error("Error searching for Companies by Name:", error);
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while searching for companies" });
+//   }
+// };
 
 export const searchByJobPosition = async (req, res) => {
   try {
