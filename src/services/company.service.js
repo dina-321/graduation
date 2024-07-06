@@ -26,12 +26,13 @@ export const createNewCompany = async (company) => {
   });
 };
 
-export const getCompanyByEmailTIN = async (email, TIN) => {
+export const getCompanyByEmail = async (email) => {
   return await prisma.company.findFirst({
-    where: { entity: { email, TIN } },
+    where: { entity: { email } },
     include: { entity: true },
   });
 };
+
 export const getAllCompanies = async () => {
   return await prisma.company.findMany();
 };

@@ -1,17 +1,18 @@
 import {
   createNewCompany,
   getAllCompanies,
-  getCompanyByEmailTIN,
+  getCompanyByEmail,
   getCompanyById,
 } from "../services/company.service.js";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../middlewares/authenticate.js";
+import routerr_interface from "../utils/routers.interface.js";
 
 export const signUpCompany = async (req, res) => {
-  const { TIN, password, email } = req.body;
+  const { password, email } = req.body;
 
   try {
-    const company = await getCompanyByEmailTIN(email, TIN);
+    const company = await getCompanyByEmail(email);
     if (company) {
       return res
         .status(201)
@@ -19,14 +20,10 @@ export const signUpCompany = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    if (req.file) {
-      const imageUrl = `${req.protocol}://${req.get("host")}/upload/${
-        req.file.filename
-      }`;
-      req.body.image = imageUrl;
-    }
 
-    // req.body.image = req.file.filename;
+    req.body.image = `${
+      process.env.BASE_URL
+    }${routerr_interface.images.get.replace(":filename", req.file.filename)}`;
     const newCompany = await createNewCompany({
       ...req.body,
       password: hashedPassword,
@@ -48,9 +45,13 @@ export const signUpCompany = async (req, res) => {
 };
 export const signInCompany = async (req, res) => {
   const { email, password, TIN } = req.body;
-  const company = await getCompanyByEmailTIN(email, TIN);
+  const company = await getCompanyByEmail(email);
   if (!company || !company?.entity) {
     return res.status(400).json({ message: "Company not found", error: 1 });
+  }
+
+  if (company?.entity?.TIN != TIN) {
+    return res.status(400).json({ message: "Invalid TIN", error: 1 });
   }
 
   const isPasswordValid = await bcrypt.compare(
