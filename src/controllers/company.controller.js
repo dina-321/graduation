@@ -19,8 +19,14 @@ export const signUpCompany = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    if (req.file) {
+      const imageUrl = `${req.protocol}://${req.get("host")}/upload/${
+        req.file.filename
+      }`;
+      req.body.image = imageUrl;
+    }
 
-    req.body.image = req.file.filename;
+    // req.body.image = req.file.filename;
     const newCompany = await createNewCompany({
       ...req.body,
       password: hashedPassword,
@@ -30,13 +36,11 @@ export const signUpCompany = async (req, res) => {
 
     delete newCompany.entityId;
     delete newCompany.metadata;
-    return res
-      .status(200)
-      .json({
-        message: "Company created successfully",
-        token,
-        company: newCompany,
-      });
+    return res.status(200).json({
+      message: "Company created successfully",
+      token,
+      company: newCompany,
+    });
   } catch (error) {
     console.error("-----error----", error);
     return res.status(500).send("Internal server error");

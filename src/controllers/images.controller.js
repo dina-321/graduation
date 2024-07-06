@@ -1,8 +1,15 @@
 import path from "path";
-import fs from 'fs'
+import fs from "fs";
 
 export const getImage = async (req, res) => {
-    console.log(req.params.filename)
-  const imagePath = path.join(process.cwd(), `/upload/${req.params.filename}`);
-  return fs.existsSync(imagePath) ? res.sendFile(imagePath) : res.json({message: "Image not found.", error: 1})
+  const filename = req.params.filename;
+  console.log(filename);
+  const imagePath = path.join(process.cwd(), "upload", filename);
+
+  if (fs.existsSync(imagePath)) {
+    const imageUrl = `${req.protocol}://${req.get("host")}/upload/${filename}`;
+    res.json({ imageUrl });
+  } else {
+    res.json({ message: "Image not found.", error: 1 });
+  }
 };
