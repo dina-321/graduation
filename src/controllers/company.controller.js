@@ -1,18 +1,18 @@
 import {
   createNewCompany,
   getAllCompanies,
-  getCompanyByEmail,
+ 
+  getCompanyByEmailTIN,
   getCompanyById,
 } from "../services/company.service.js";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../middlewares/authenticate.js";
-import routerr_interface from "../utils/routers.interface.js";
 
 export const signUpCompany = async (req, res) => {
-  const { password, email } = req.body;
+  const { TIN, password, email } = req.body;
 
   try {
-    const company = await getCompanyByEmail(email);
+    const company = await getCompanyByEmailTIN(email, TIN);
     if (company) {
       return res
         .status(201)
@@ -21,9 +21,7 @@ export const signUpCompany = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    req.body.image = `${
-      process.env.BASE_URL
-    }${routerr_interface.images.get.replace(":filename", req.file.filename)}`;
+    req.body.image = req.file.filename;
     const newCompany = await createNewCompany({
       ...req.body,
       password: hashedPassword,
@@ -33,11 +31,13 @@ export const signUpCompany = async (req, res) => {
 
     delete newCompany.entityId;
     delete newCompany.metadata;
-    return res.status(200).json({
-      message: "Company created successfully",
-      token,
-      company: newCompany,
-    });
+    return res
+      .status(200)
+      .json({
+        message: "Company created successfully",
+        token,
+        company: newCompany,
+      });
   } catch (error) {
     console.error("-----error----", error);
     return res.status(500).send("Internal server error");
@@ -45,13 +45,9 @@ export const signUpCompany = async (req, res) => {
 };
 export const signInCompany = async (req, res) => {
   const { email, password, TIN } = req.body;
-  const company = await getCompanyByEmail(email);
+  const company = await getCompanyByEmailTIN(email, TIN);
   if (!company || !company?.entity) {
     return res.status(400).json({ message: "Company not found", error: 1 });
-  }
-
-  if (company?.entity?.TIN != TIN) {
-    return res.status(400).json({ message: "Invalid TIN", error: 1 });
   }
 
   const isPasswordValid = await bcrypt.compare(
