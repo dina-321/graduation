@@ -5,7 +5,6 @@ export const createNewCompany = async (company) => {
       metadata: {},
       companyName: company.companyName,
       profile: {
-        companyName: company.companyName,
         email: company.email,
         phoneNumber: company.phoneNumber,
         address: company.address,
